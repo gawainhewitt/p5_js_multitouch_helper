@@ -1,0 +1,20 @@
+{
+  "name": "P5 Multitouch Helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "build": "rm -rf ./dist/* && cp ./index.html ./dist/index.html && cp -avr ./css/ ./dist/ && cp ./p5.min.js ./dist/p5.min.js && cp ./sketch.js ./dist/sketch.js && cp -avr ./images/ ./dist/ && cp -avr ./sounds/ ./dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gawainhewitt/p5_js_multitouch_helper.git"
+  },
+  "keywords": [],
+  "author": "Gawain Hewitt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gawainhewitt/p5_js_multitouch_helper/issues"
+  },
+  "homepage": "https://github.com/gawainhewitt/p5_js_multitouch_helper#readme"
+}
