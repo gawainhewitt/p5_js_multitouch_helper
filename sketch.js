@@ -11,6 +11,23 @@ let ongoingTouches = [];
 let notes = ["C4", "D#4", "G4"];
 let synth = new Tone.PolySynth().toDestination();
 //let synth = new Tone.MonoSynth().toDestination();
+//synth.volume.value = -20;
+synth.set(  // setup the synth - this is audio stuff really
+    {
+      "volume": -20,
+      "detune": 0,
+      "portamento": 0,
+      "envelope": {
+        "attack": 0.8,
+        "attackCurve": "linear",
+        "decay": 0.2,
+        "decayCurve": "exponential",
+        "sustain": 0.3,
+        "release": 0.8,
+        "releaseCurve": "exponential"
+      },
+    }
+  );
 
 
 function setup() {
@@ -178,19 +195,23 @@ function buttonPressed() {
 }
 
 let now = Tone.now();
-let synthState = [0, 0, 0];
+let synthState = [0, 0, 0]; // manages polyphony issues with too many notes being called
 
 function playSynth(i) {
   buttonColour[i] = buttonOnColour[i];
   //synth.triggerAttackRelease("C4", "8n");
   if(synthState[i] === 0) {
-    synth.triggerAttack(notes[i], now);
+    //synth.triggerAttack(notes[i], now);
+    synth.triggerAttack(notes[i]);
     synthState[i] = 1;
   }
 }
 
 function stopSynth(i) {
   buttonColour[i] = buttonOffColour[i];
-  synth.triggerRelease(notes[i], now);
+  //synth.triggerRelease(notes[i], now);
+  if(synthState[i] === 1) {
+  synth.triggerRelease(notes[i]);
   synthState[i] = 0;
+  }
 }
