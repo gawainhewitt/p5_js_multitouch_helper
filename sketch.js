@@ -115,6 +115,8 @@ function handleStart(e) {
     Tone.start(); // we need this to allow audio to start.
     soundOn = true;
     drawSynth();
+    let _touches = e.changedTouches; //assign the changedTouches to an array called touches
+    ongoingTouches.push(copyTouch(_touches[0])); //copy the new touch into the ongoingTouches array
   }
 }
 
