@@ -1,4 +1,4 @@
-# p5_js_multitouch_helper
+# JavaScript Multitouch Helper
 
 This is a project that i've made to allow me to increase my confidence in using location based multi touch in JavaScript
 Initially this was intended to focus on p5.js, but it has expanded to be more general.
