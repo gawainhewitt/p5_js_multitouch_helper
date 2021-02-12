@@ -36,27 +36,12 @@ var pentatonic = [0,2,4,7,9,12,14,16,19]; // intervals for a pentatonic scale fo
 var minor = [0,2,3,5,7,8,10,12,14]; // intervals for a minor scale for 9 notes
 var majorBlues = [0,2,3,4,7,9,12,14,15]; // intervals for a major blues scale for 9 notes
 var minorBlues = [0,3,5,6,7,10,12,15,17]; // intervals for a minor scale for 9 notes
+var scales = ["default", pentatonic, major, minor, majorBlues, minorBlues];
 var scale; // variable to store the scale in
 var theKey = 0; // this variable sets the default key on load
-var octave = 24; //set the default octave on load
-let synth = new Tone.PolySynth().toDestination(); // create a polysynth
+var octave = 36; //set the default octave on load
+let synth;
 let soundOn = false; // have we instigated Tone.start() yet? (needed to allow sound)
-synth.set(  // setup the synth - this is audio stuff really
-    {
-      "volume": -15, //remember to allow for the cumalative effects of polyphony
-      "detune": 0,
-      "portamento": 0,
-      "envelope": {
-        "attack": 0.8,
-        "attackCurve": "linear",
-        "decay": 0,
-        "decayCurve": "exponential",
-        "sustain": 0.3,
-        "release": 0.8,
-        "releaseCurve": "exponential"
-      },
-    }
-  );
 
 
 function setup() {  // setup p5
@@ -158,6 +143,33 @@ function drawSynth() { // instead of using the draw function at 60 frames a seco
   }
 }
 
+function startAudio() {
+    Tone.start(); // we need this to allow audio to start.
+    soundOn = true;
+    drawSynth();
+    synth = new Tone.PolySynth({
+      "oscillator": {
+        type: 'sawtooth6'
+      }
+    }).toDestination(); // create a polysynth
+    synth.set(  // setup the synth - this is audio stuff really
+        {
+          "volume": -10, //remember to allow for the cumalative effects of polyphony
+          "detune": 0,
+          "portamento": 0,
+          "envelope": {
+            "attack": 25,
+            "attackCurve": "linear",
+            "decay": 0,
+            "decayCurve": "exponential",
+            "sustain": 0.3,
+            "release": 5,
+            "releaseCurve": "exponential"
+          },
+        }
+      );
+}
+
 function handleStart(e) {
   e.preventDefault(); // prevent default touch actions like scroll
   if(soundOn){
@@ -166,9 +178,7 @@ function handleStart(e) {
     //console.log(ongoingTouches); // debugging
     buttonPressed(e);
   }else{
-    Tone.start(); // we need this to allow audio to start.
-    soundOn = true;
-    drawSynth();
+    startAudio();
     let _touches = e.changedTouches; //assign the changedTouches to an array called touches
     ongoingTouches.push(copyTouch(_touches[0])); //copy the new touch into the ongoingTouches array
   }
@@ -308,7 +318,6 @@ function stopSynth(i) {
     drawSynth();
   }
 }
-
 
 
 
