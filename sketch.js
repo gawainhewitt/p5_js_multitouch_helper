@@ -17,6 +17,7 @@ let buttonOffColour = []; // default off colours
 let buttonOnColour = []; // default on colours
 let synthState = []; // we need to store whether a note is playing because the synth is polyphonic and it will keep accepting on messages with every touch or moved touch and we won't be able to switch them all off
 let radius = 50; // radius of the buttons
+let offset; // to store the difference between x and y readings once menus are taken into account
 let r = 130; // radius of the circle around which the buttons will be drawn
 let angle = 0; // variable within which to store the angle of each button as we draw it
 let step;
@@ -70,6 +71,7 @@ function setup() {  // setup p5
   el.addEventListener("touchend", handleEnd, false);
   el.addEventListener("touchcancel", handleCancel, false);
   el.addEventListener("touchmove", handleMove, false);
+  offset = el.getBoundingClientRect(); // move touch readings to allow for the menu
 
   colorMode(HSB, numberOfButtons + 1); // specify HSB colormode and set the range to be between 0 and numberOfButtons
   noStroke(); // no stroke on the drawings
@@ -112,6 +114,7 @@ function createButtonPositions() {
     angle = angle + step;
   }
   console.log(notes);
+  console.log("offset height = " + offset.top);
 }
 
 /*
@@ -256,10 +259,12 @@ function buttonPressed() {
 
   //**** first let's check if each touch is on a button, and store the state in our local variable */
 
+  // i'm using offset.top to change the touch reference to take into consideration the DOM elements above it. If needed you can do the same with  left, top, right, bottom, x, y, width, height.
+
   if(_touches.length != 0){ // if the touches array isn't empty
     for (var t = 0; t < _touches.length; t++) {  // for each touch
       for (let i = 0; i < numberOfButtons; i++) { // for each button
-        let d = dist(_touches[t].clientX, _touches[t].clientY, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
+        let d = dist(_touches[t].clientX, _touches[t].clientY - offset.top, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
         if (d < radius) { // is the touch where a button is?
           _buttonState[i] = 1; // the the button is on
           console.log("if");
@@ -303,7 +308,6 @@ function stopSynth(i) {
     drawSynth();
   }
 }
-
 
 
 
