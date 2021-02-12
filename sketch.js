@@ -78,9 +78,9 @@ function draw() {  // p5 draw function - the traditional way to do this in p5 - 
   for (let t of ongoingTouches) { // cycle through the touches
     //console.log(t) // log the touches if you want to for debugging
     fill(t.identifier % 5, 4, 4); // each touch point's colour relates to touch id. however remember that on iOs the id numbers are huge so this doesn't work so well
-    ellipse(t.pageX, t.pageY, 100); //make a circle at the position of the touch
+    ellipse(t.clientX, t.clientY, 100); //make a circle at the position of the touch
     fill(0, 0, 0); // set colour to black
-    //text(t.identifier, t.pageX - 50, t.pageY - 50); // display the touch id on the screen (for debuggin)
+    //text(t.identifier, t.clientX - 50, t.clientY - 50); // display the touch id on the screen (for debuggin)
   }
   for (let t of endedTouches) { // cycle through the end touches
     let tDiff = millis() - t.time; // set tDiff to tell us how recently we stopped touching
@@ -179,8 +179,8 @@ function handleCancel(e) { // this handles touchcancel
   }
 }
 
-function copyTouch({ identifier, pageX, pageY }) { // this function is used to facilitate copying touch ID properties
-  return { identifier, pageX, pageY };
+function copyTouch({ identifier, clientX, clientY }) { // this function is used to facilitate copying touch ID properties
+  return { identifier, clientX, clientY };
 }
 
 function ongoingTouchIndexById(idToFind) { //compares the more complex stuff to give a simple answer to the question "which touch"
@@ -204,7 +204,7 @@ function buttonPressed() {
   if(_touches.length != 0){ // if the touches array isn't empty
     for (var t = 0; t < _touches.length; t++) {  // for each touch
       for (let i = 0; i < buttonPositions.length; i++) { // for each button
-        let d = dist(_touches[t].pageX, _touches[t].pageY, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
+        let d = dist(_touches[t].clientX, _touches[t].clientY, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
         if (d < radius) { // is the touch where a button is?
           _buttonState[i] = 1; // the the button is on
         }else{
@@ -405,8 +405,8 @@ function stopSynth(i) {
 //   return false;
 // }
 
-// function copyTouch({ identifier, pageX, pageY }) { // this function is used to facilitate copying touch ID properties
-//   return { identifier, pageX, pageY };
+// function copyTouch({ identifier, clientX, clientY }) { // this function is used to facilitate copying touch ID properties
+//   return { identifier, clientX, clientY };
 // }
 
 // function ongoingTouchIndexById(idToFind) { //compares the more complex stuff to give a simple answer to the question "which touch"
@@ -430,7 +430,7 @@ function stopSynth(i) {
 //   if(_touches.length != 0){ // if the touches array isn't empty
 //     for (var t = 0; t < _touches.length; t++) {  // for each touch
 //       for (let i = 0; i < buttonPositions.length; i++) { // for each button
-//         let d = dist(_touches[t].pageX, _touches[t].pageY, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
+//         let d = dist(_touches[t].clientX, _touches[t].clientY, buttonPositions[i].x, buttonPositions[i].y); // compare the touch to the button position
 //         if (d < radius) { // is the touch where a button is?
 //           _buttonState[i] = 1; // the the button is on
 //         }else{
